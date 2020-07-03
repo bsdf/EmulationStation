@@ -22,6 +22,11 @@ FileData::FileData(FileType type, const std::string& path, SystemEnvironmentData
 	// metadata needs at least a name field (since that's what getName() will return)
 	if(metadata.get("name").empty())
 		metadata.set("name", getDisplayName());
+
+	// save when game was added to library
+	if (type == GAME && metadata.get("dateadded") == "0")
+		metadata.set("dateadded", Utils::Time::DateTime(Utils::Time::now()));
+
 	mSystemName = system->getName();
 	metadata.resetChangedFlag();
 }
