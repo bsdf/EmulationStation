@@ -74,9 +74,15 @@ namespace FileSorts
 
 	bool compareLastPlayed(const FileData* file1, const FileData* file2)
 	{
-		// since it's stored as an ISO string (YYYYMMDDTHHMMSS), we can compare as a string
-		// as it's a lot faster than the time casts and then time comparisons
-		return (file1)->metadata.get("lastplayed") < (file2)->metadata.get("lastplayed");
+		//only games have lastplayed metadata
+		if(file1->metadata.getType() == GAME_METADATA && file2->metadata.getType() == GAME_METADATA)
+		{
+			// since it's stored as an ISO string (YYYYMMDDTHHMMSS), we can compare as a string
+			// as it's a lot faster than the time casts and then time comparisons
+			return (file1)->metadata.get("lastplayed") < (file2)->metadata.get("lastplayed");
+		}
+
+		return false;
 	}
 
 	bool compareNumPlayers(const FileData* file1, const FileData* file2)
@@ -121,6 +127,14 @@ namespace FileSorts
 
 	bool compareDateAdded(const FileData* file1, const FileData* file2)
 	{
-		return (file1)->metadata.get("dateadded") < (file2)->metadata.get("dateadded");
+		//only games have dateadded metadata
+		if(file1->metadata.getType() == GAME_METADATA && file2->metadata.getType() == GAME_METADATA)
+		{
+			// since it's stored as an ISO string (YYYYMMDDTHHMMSS), we can compare as a string
+			// as it's a lot faster than the time casts and then time comparisons
+			return (file1)->metadata.get("dateadded") < (file2)->metadata.get("dateadded");
+		}
+
+		return false;
 	}
 };
